@@ -1,4 +1,4 @@
-package com.personal.userregistration.domain;
+package com.personal.userregistration.infrastructure.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -26,7 +26,7 @@ public class User {
 
     @Column(name="name", nullable = false)
     @Size(min=2, max=60)
-    @NotBlank
+    @NotBlank(message="Name is required.")
     private String name;
 
     @Column(name="email", unique=true, nullable=false)
@@ -40,6 +40,7 @@ public class User {
     private String password;
 
     @Column(name="birthdate", nullable=false)
+    @NotBlank(message="Birth date is required.")
     @Past
     private LocalDate birthdate;
 
