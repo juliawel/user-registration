@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.net.PasswordAuthentication;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -59,4 +60,20 @@ public class UserService {
         userRepository.delete(userToDelete.get());
     }
 
+    public UserResponseDto updateUserById(UUID id, UserRegistrationDto updatedDto) {
+        User userEntity = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found."));
+
+        User updatedUser = User.builder()
+                .id(userEntity.getId())
+                .name(updatedDto.getName() != null ? updatedDto.getName() : userEntity.getName())
+                .email(updatedDto.getEmail() != null ? updatedDto.getEmail() : userEntity.getEmail())
+                .birthdate(updatedDto.getBirthdate() != null ? updatedDto.getBirthdate() : userEntity.getBirthdate())
+                .password(userEntity.getPassword()) // ADDED THIS LINE
+                .build();
+
+        User savedUser = userRepository.save(updatedUser);
+
+        return convertToDto(savedUser);
+    }
 }
