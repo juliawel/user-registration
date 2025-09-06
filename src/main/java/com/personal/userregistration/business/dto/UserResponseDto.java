@@ -1,6 +1,7 @@
 package com.personal.userregistration.business.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,6 @@ public class UserResponseDto {
     @NotBlank
     private String email;
 
-    @NotBlank
+    @NotNull
     private LocalDate birthdate;
 }

@@ -2,10 +2,7 @@ package com.personal.userregistration.infrastructure.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -40,7 +37,7 @@ public class User {
     private String password;
 
     @Column(name="birthdate", nullable=false)
-    @NotBlank(message="Birth date is required.")
+    @NotNull(message="Birth date is required.")
     @Past
     private LocalDate birthdate;
 
