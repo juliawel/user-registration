@@ -14,7 +14,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="user")
+@Table(name="users")
 public class User {
 
     @Id
@@ -33,7 +33,6 @@ public class User {
 
     @Column(name="password", nullable=false)
     @JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
-    @Size(min=8, max=20, message="Password must contain at least 8 characters.")
     private String password;
 
     @Column(name="birthdate", nullable=false)
