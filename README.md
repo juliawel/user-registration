@@ -2,13 +2,6 @@
 
 This is a simple user registration API built with Spring Boot.
 
-## Features
-
-*   User registration
-*   User data validation
-*   Password encryption
-*   Persistence of user data in an H2 in-memory database
-
 ## Technologies Used
 
 *   Java 24
@@ -30,7 +23,7 @@ To get a local copy up and running, follow these simple steps.
 *   JDK 24 or later
 *   Maven 3.6.3 or later
 
-### Installation
+### Installation & Running
 
 1.  Clone the repo
     ```sh
@@ -40,11 +33,7 @@ To get a local copy up and running, follow these simple steps.
     ```sh
     cd user-registration
     ```
-3.  Build the project
-    ```sh
-    mvn clean install
-    ```
-4.  Run the application
+3.  Run the application using Maven
     ```sh
     mvn spring-boot:run
     ```
@@ -55,30 +44,75 @@ The application will be available at `http://localhost:8080`.
 
 The following API endpoints are available:
 
-*   `POST /users/register`: Registers a new user.
+### `POST /user`
+
+Registers a new user.
 
 **Request Body:**
 
 ```json
 {
-  "username": "testuser",
+  "name": "Test User",
+  "email": "test@example.com",
   "password": "password123",
-  "email": "test@example.com"
+  "birthdate": "1990-01-01"
 }
 ```
 
-**Response:**
+### `GET /user`
+
+Retrieves a list of all users.
+
+### `GET /user/search`
+
+Finds a user by email.
+
+**Query Parameter:**
+
+*   `email`: The email of the user to find.
+
+**Example:** `http://localhost:8080/user/search?email=test@example.com`
+
+### `PUT /user/{id}`
+
+Updates an existing user. The request body can contain any of the fields from the registration request.
+
+**Path Variable:**
+
+*   `id`: The UUID of the user to update.
+
+**Request Body (Example):**
 
 ```json
 {
-  "id": 1,
-  "username": "testuser",
-  "email": "test@example.com"
+  "name": "New Name"
 }
 ```
 
-## Configuration
+**Example URL:** `http://localhost:8080/user/f47ac10b-58cc-4372-a567-0e02b2c3d479`
 
-The application uses an in-memory H2 database by default. The configuration can be found in the `src/main/resources/application.properties` file.
+### `DELETE /user`
 
-*   **`spring.application.name`**: The name of the application.
+Deletes a user by email.
+
+**Query Parameter:**
+
+*   `email`: The email of the user to delete.
+
+**Example:** `http://localhost:8080/user/delete?email=test@example.com`
+
+
+## H2 Database
+
+This project uses an in-memory H2 database for storage. The data is not persisted between application restarts.
+
+### H2 Console
+
+The H2 console is a web-based client that allows you to manage the database.
+
+*   **URL:** `http://localhost:8080/h2-console`
+*   **JDBC URL:** `jdbc:h2:mem:user`
+*   **Username:** `test`
+*   **Password:** (leave blank)
+
+To access the console, open the URL in your browser and use the credentials above to log in.
