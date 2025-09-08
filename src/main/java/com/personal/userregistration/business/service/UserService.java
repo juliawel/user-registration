@@ -9,8 +9,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.net.PasswordAuthentication;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -75,5 +77,12 @@ public class UserService {
         User savedUser = userRepository.save(updatedUser);
 
         return convertToDto(savedUser);
+    }
+
+    public List<UserResponseDto> findAll() {
+        return userRepository.findAll()
+                .stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 }
