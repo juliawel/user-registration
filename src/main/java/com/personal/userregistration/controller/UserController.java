@@ -5,25 +5,36 @@ import com.personal.userregistration.business.dto.UserResponseDto;
 import com.personal.userregistration.business.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
 
     @PostMapping
     public ResponseEntity<UserResponseDto> registerUser(@Valid @RequestBody UserRegistrationDto userRegistrationDto){
+        logger.info("Received user registration request: {}", userRegistrationDto);
         UserResponseDto responseDto = userService.registerUser(userRegistrationDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserResponseDto>> findAllUsers() {
+        List<UserResponseDto> users = userService.findAll();
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/search")
